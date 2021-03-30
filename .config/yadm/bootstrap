@@ -18,3 +18,7 @@ yadm submodule update --recursive --init
 #   vim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
 # fi
 
+
+# # Update!
+# neovim +PackUpdate +qall
+# neovim +CocInstall +qall
