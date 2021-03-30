@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# Because Git submodule commands cannot operate without a work tree, they must
+# be run from within $HOME (assuming this is the root of your dotfiles)
+cd "${HOME}"
+
+# In case you cloned with the URL
+echo "Updating the yadm repo origin URL"
+yadm remote set-url origin "git@github.com:imochoa/yadm-dotfiles.git"
+
+echo "Init submodules"
+yadm submodule update --recursive --init
+
+# https://yadm.io/docs/bootstrap#
+# TODO install neovim plugins?
+# if command -v vim >/dev/null 2>&1; then
+#   echo "Bootstraping Vim"
+#   vim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
+# fi
+
