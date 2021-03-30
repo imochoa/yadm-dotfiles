@@ -11,6 +11,9 @@ yadm remote set-url origin "git@github.com:imochoa/yadm-dotfiles.git"
 echo "Init submodules"
 yadm submodule update --recursive --init
 
+echo "Decrypting"
+yadm decrypt
+
 # https://yadm.io/docs/bootstrap#
 # TODO install neovim plugins?
 # if command -v vim >/dev/null 2>&1; then
