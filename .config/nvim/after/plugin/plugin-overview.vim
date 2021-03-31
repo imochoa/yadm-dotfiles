@@ -38,6 +38,9 @@ call minpac#add('tpope/vim-unimpaired')
 " Allow '.' to repeat the last command, not just the last native command
 call minpac#add('tpope/vim-repeat')
 
+" Surround
+call minpac#add('tpope/vim-surround')
+
 " Git wrapper
 call minpac#add('tpope/vim-fugitive')
 
