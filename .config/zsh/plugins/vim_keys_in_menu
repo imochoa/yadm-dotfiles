@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+# https://github.com/Phantas0s/.dotfiles/blob/master/zsh/plugins/cursor_mode
+
+vim_keys_in_menu() {
+  # use the vi navigation keys in menu completion
+  bindkey -M menuselect 'h' vi-backward-char
+  bindkey -M menuselect 'k' vi-up-line-or-history
+  bindkey -M menuselect 'l' vi-forward-char
+  bindkey -M menuselect 'j' vi-down-line-or-history
+}
+
+vim_keys_in_menu
+
