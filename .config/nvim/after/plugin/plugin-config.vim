@@ -2,6 +2,9 @@
 " Plugin configuration
 " ----------------------------------- 
 
+" filetype plugin on
+filetype plugin indent on
+
 " ---------
 " NEW fzf.vim 
 " ---------
