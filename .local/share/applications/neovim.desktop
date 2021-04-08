@@ -16,11 +16,13 @@
 
 # Improve from github: https://github.com/fmoralesc/neovim-gnome-terminal-wrapper
 
+# Exec=/usr/local/bin/nvim_desktop_wrapper.py %F
+# Exec=${HOME}/.local/bin/nvim_desktop_wrapper.py %F
 [Desktop Entry]
 Version=1.0
 Type=Application
 Name=Neovim
-Exec=/usr/local/bin/nvim_desktop_wrapper.py %F
+Exec=nvim_desktop_wrapper.py %F
 NoDisplay=false
 Categories=X-GNOME-Other;
 StartupNotify=false
