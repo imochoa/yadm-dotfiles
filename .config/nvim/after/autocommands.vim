@@ -67,23 +67,23 @@ autocmd FileType gitcommit,gitrebase,gitconfig set bufhidden=delete
 
 " necessary?
 " :syntax on
-augroup filetype_json
+" augroup filetype_json
 
 
-  " Comments in JSON files
-  autocmd FileType json syntax match Comment +\/\/.\+$+
+"   " Comments in JSON files
+"   autocmd FileType json syntax match Comment +\/\/.\+$+
 
-  " " Folding
-  " autocmd FileType json :setlocal foldmethod=syntax
+"   " " Folding
+"   " autocmd FileType json :setlocal foldmethod=syntax
 
-  " The first autocommand sets 'indent' as the fold method before a file is loaded, so that indent-based folds will be defined.
-  " au BufReadPre * setlocal foldmethod=syntax
-  " au BufRead * setlocal foldmethod=syntax
-  " The second one allows you to manually create folds while editing. It's executed after the modeline is read, so it won't 
-  " change the fold method if the modeline set the fold method to something else like 'marker' or 'syntax'.
-  " au BufWinEnter * if &fdm == 'syntax' | setlocal foldmethod=manual | endif
+"   " The first autocommand sets 'indent' as the fold method before a file is loaded, so that indent-based folds will be defined.
+"   " au BufReadPre * setlocal foldmethod=syntax
+"   " au BufRead * setlocal foldmethod=syntax
+"   " The second one allows you to manually create folds while editing. It's executed after the modeline is read, so it won't 
+"   " change the fold method if the modeline set the fold method to something else like 'marker' or 'syntax'.
+"   " au BufWinEnter * if &fdm == 'syntax' | setlocal foldmethod=manual | endif
 
-augroup END
+" augroup END
 
 
 " -----------------------------------
@@ -100,6 +100,13 @@ autocmd BufNewFile,BufRead *.gltf set syntax=json
 " https://vi.stackexchange.com/questions/18231/what-is-the-difference-of-using-au-bufnewfile-bufread-py-and-au-filetype-py
 " autocmd BufNewFile,BufRead *.py set foldmethod=indent
 
+" -----------------------------------
+" Xresources
+" -------------------------------- # vim: set ft=xdefaults
+" Correct commenting on .Xdefaults and .Xresources
+" https://github.com/tpope/vim-commentary/issues/47
+" https://github.com/tpope/vim-commentary/issues/85
+autocmd FileType xdefaults setlocal commentstring=!\ %s
 
 ""  ---- Minimal configuration:
 "set smartindent   " Do smart autoindenting when starting a new line
