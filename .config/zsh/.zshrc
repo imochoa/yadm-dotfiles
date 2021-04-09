@@ -13,9 +13,18 @@
 # https://github.com/zdharma/zinit/blob/master/README.md
 # https://thevaluable.dev/zsh-install-configure-mouseless/ 
 # Add to the path
+
+# export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 fpath=(${XDG_CONFIG_HOME}/zsh/plugins $fpath)
 fpath=(${XDG_CONFIG_HOME}/zsh/prompts $fpath)
+fpath=(${ZDOTDIR}/completions/ $fpath)
 
+# TODO
+# zinit has another autocompletion dir! ~/.zinit/completions/
+# Autocompletion files START WITH AN UNDERSCORE
+
+# Show fpath for debugging
+# print -rl -- $fpath
 
 # --------------------------------------------------------------------------------
 # COLORS & PROMPT
@@ -143,6 +152,17 @@ bindkey -M menuselect '^h' vi-backward-char
 # --------------------------------------------------------------------------------
 # BASH COMPLETION
 # --------------------------------------------------------------------------------
+# TODO 
+# AUTO UPDATE
+# ❯ wget https://raw.githubusercontent.com/cheat/cheat/master/scripts/cheat.zsh
+# https://github.com/zsh-users/zsh-completions
+
+# zinit snippet 'https://github.com/zsh-users/zsh/blob/master/Completion/bashcompinit'
+# https://raw.githubusercontent.com/zsh-users/zsh/master/Completion/bashcompinit
+# autoload bashcompinit; bashcompinit
+
+# source /etc/profile.d/cheat.bash
+# export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 # # load bashcompinit for some old bash completions 
 # # autoload bashcompinit && bashcompinit  
 # autoload -U +X bashcompinit && bashcompinit
@@ -152,9 +172,18 @@ bindkey -M menuselect '^h' vi-backward-char
 #   [ -r "$bcfile" ] && source "$bcfile"
 # done
 
-# # load bashcompinit for some old bash completions 
-# autoload bashcompinit && bashcompinit  
+# load bashcompinit for some old bash completions 
+# autoload bashcompinit #&& bashcompinit  
 # [[ -r ~/Projects/autopkg_complete/autopkg ]] && source ~/Projects/autopkg_complete/autopkg 
+# [[ -r "${ZDOTDIR}/bash_completion/" ]] && source "${ZDOTDIR}/bash_completion/"  
+
+# for bcfile in ${ZDOTDIR}/bash_completion/*  ; do
+#   # [[ -r "$bcfile" ]] && source "$bcfile"
+#   echo $bcfile
+#   [ -r "$bcfile" ] && source "$bcfile"
+# done
+
+# https://github.com/cheat/cheat/blob/master/scripts/cheat.zsh
 
 # --------------------------------------------------------------------------------
 # ZINIT
