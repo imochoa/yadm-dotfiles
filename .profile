@@ -27,3 +27,9 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
+
+# THIS IS WHERE YOU SHOULD SET THE XDG PARAMS
+# export XDG_CONFIG_HOME="$HOME/.config" # Default value anyway
+# export XDG_DATA_HOME="$XDG_CONFIG_HOME/local/share"
+# DON't MESS WITH THE CACHE DIR -> NAUTILUS NEEDS TO FIND THE ~/.cache/tracker/meta.db
+# export XDG_CACHE_HOME="$XDG_CONFIG_HOME/cache"

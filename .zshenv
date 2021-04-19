@@ -5,9 +5,10 @@
 # From https://thevaluable.dev/zsh-install-configure-mouseless/
 
 # Set the base directory
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$XDG_CONFIG_HOME/local/share"
-export XDG_CACHE_HOME="$XDG_CONFIG_HOME/cache"
+# export XDG_CONFIG_HOME="$HOME/.config" # Default value anyway
+# export XDG_DATA_HOME="$XDG_CONFIG_HOME/local/share"
+# DON't MESS WITH THE CACHE DIR -> NAUTILUS NEEDS TO FIND THE ~/.cache/tracker/meta.db
+# export XDG_CACHE_HOME="$XDG_CONFIG_HOME/cache"
 
 
 # Editor
