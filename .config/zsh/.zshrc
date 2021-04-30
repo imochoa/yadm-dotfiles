@@ -15,8 +15,8 @@
 # Add to the path
 
 # export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-fpath=(${XDG_CONFIG_HOME}/zsh/plugins $fpath)
-fpath=(${XDG_CONFIG_HOME}/zsh/prompts $fpath)
+fpath=(${ZDOTDIR}/plugins $fpath)
+fpath=(${ZDOTDIR}/prompts $fpath)
 fpath=(${ZDOTDIR}/completions/ $fpath)
 
 # TODO

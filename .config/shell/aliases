@@ -1,6 +1,36 @@
 #!/usr/bin/env bash
 # ~/.bash_aliases
 
+
+# GPG Encryption
+# Simple symmetric encryption
+# alias gpg-encrypt='gpg --symmetric'
+# alias gpg-decrypt='gpg --decrypt '
+# Advanced symmetric encryption
+alias gpg-encrypt='gpg \
+    --symmetric \
+    --cipher-algo aes256 \
+    --digest-algo sha512 \
+    --cert-digest-algo sha512 \
+    --compress-algo none -z 0 \
+    --s2k-mode 3 \
+    --s2k-digest-algo sha512 \
+    --s2k-count 65011712 \
+    --force-mdc \
+    --pinentry-mode loopback \
+    --armor \
+    --no-symkey-cache \
+'
+# --output encrypted.gpg \
+
+alias gpg-decrypt='gpg \
+    --decrypt \
+    --pinentry-mode loopback \
+    --armor \
+'
+# --output somefile.gpg \
+
+
 # Make aliases work with "sudo": https://askubuntu.com/questions/22037/aliases-not-available-when-using-sudo
 # We can tell bash to check the next word after the alias (i.e sudo) by adding a space to the end of the alias value.
 alias sudo='sudo '
@@ -17,11 +47,17 @@ alias v='nvim';
 alias restart-audio='systemctl --user restart pulseaudio'
 # bad way to restart
 # pulseaudio -k && sudo alsa force-reload
+alias kill-slack='pkill slack'
+alias test-dunst='notify-send -u low "low urgency" ; notify-send -u normal "normal urgency" ;notify-send -u critical "critical urgency" ;'
+# alias kill-dunst='killall dunst; notify-send -u low "low urgency" ; notify-send -u normal "normal urgency" ;notify-send -u critical "critical urgency" ;'
+# Alias in alias
+alias kill-dunst='killall dunst; test-dunst'
 
 # rerun last command as root
 alias please='sudo !!'
 
 # some more aliases
+# Spelling mistakes
 alias ..='cd ..'
 alias cd..='cd ..'
 alias mode='(set -o | grep emacs.*on >/dev/null 2>&1 && echo "emacs mode" || echo "vi mode")'
@@ -46,8 +82,9 @@ alias dunst-reload='killall dunst; notify-send "reloaded the dunstrc file!"'
 # Like rm, but safer since it uses trash-cli
 alias tp=trash-put
 alias rm=trash-put
+alias tp-restore=trash-restore
 
-# Like cat, but nicer
+# Like cat, but nicer (needs cat)
 # alias cat='bat --style=plain'
 alias cat='batcat --style=plain'
 
@@ -57,14 +94,18 @@ alias la='exa -a'
 alias ll='exa -lah'
 alias ls='exa --color=auto'
 
-# Like tree, but nicer
 # tree with color
 # alias tree='tree -C'
 # alias trls='tree -C | less -R'	# -C outputs colour, -R makes less understand color
 # using exa as the tree
+
+# Like tree, but nicer (needs exa)
 alias tree='exa --tree'
 
-
+# Like less, but adds better highlighting (needs source-highlight)
+alias lessh='LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s" less -M '
+# export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
+export LESS=' -R '
 
 # Find big files/directories
 alias space-left=baobab
@@ -76,9 +117,8 @@ alias cpv='rsync -ah --info=progress2'
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     # alias ls='ls --color=auto'
-    alias ls='exa --color=auto'
-    # alias dir='dir --color=auto'
-    # alias vdir='vdir --color=auto'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
@@ -105,4 +145,7 @@ alias audio-laptop='pacmd set-card-profile 0 output:analog-stereo+input:analog-s
 
 # Shorthand for programs
 alias fd='fdfind'
-alias r='ranger'
+
+# File explorer
+# alias r='ranger'
+alias r='lf'

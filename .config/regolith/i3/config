@@ -34,6 +34,9 @@
 #
 ###############################################################################
 
+# Compare with the default config?
+# nvim -d /etc/regolith/i3/config ~/.config/regolith/i3/config
+
 ###############################################################################
 # Key Mappings
 ###############################################################################
@@ -91,7 +94,9 @@ set_from_resource $ws10_key i3-wm.workspace.10.key 0
 
 ## Launch // Terminal // <> Enter ##
 set_from_resource $i3-wm.binding.terminal i3-wm.binding.terminal Return
-bindsym $mod+$i3-wm.binding.terminal exec /usr/bin/x-terminal-emulator
+# bindsym $mod+$i3-wm.binding.terminal exec /usr/bin/x-terminal-emulator
+bindsym $mod+$i3-wm.binding.terminal exec gnome-terminal --working-directory=`xcwd`
+# bindsym $mod+$i3-wm.binding.terminal exec "/usr/bin/x-terminal-emulator --working-directory=`xcwd`"
 # bindsym $mod+$i3-wm.binding.terminal exec "alacritty --working-directory=`xcwd`"
 
 ## Launch // Browser // <><Shift> Enter ##
@@ -214,7 +219,7 @@ bindsym $mod+$i3-wm.binding.ws_prev_on_output2 workspace prev_on_output
 
 ## Navigate // Next Free Workspace // <> ` ##
 set_from_resource $i3-wm.binding.next_free i3-wm.binding.next_free grave
-bindsym $mod+$i3-wm.binding.next_free exec --no-startup-id /usr/share/i3xrocks/next-workspace --startnum 1
+bindsym $mod+$i3-wm.binding.next_free exec --no-startup-id /usr/bin/i3-next-workspace
 
 ## Navigate // Scratchpad // <><Ctrl> a ##
 set_from_resource $i3-wm.binding.scratchpad i3-wm.binding.scratchpad Ctrl+a
@@ -284,6 +289,9 @@ bindsym $mod+$i3-wm.binding.move_scratchpad move to scratchpad
 set_from_resource $i3-wm.binding.focus_toggle i3-wm.binding.focus_toggle Shift+t
 bindsym $mod+$i3-wm.binding.focus_toggle focus mode_toggle
 
+## Stiky mode Toggle (for floating windows) // <><Shift> y ##
+bindsym $mod+Shift+y sticky toggle 
+
 ## Modify // Window Layout Mode // <> t ##
 set_from_resource $i3-wm.binding.layout_mode i3-wm.binding.layout_mode t
 # bindsym $mod+$i3-wm.binding.layout_mode layout toggle tabbed splith splitv
@@ -312,6 +320,10 @@ bindsym $mod+Shift+Ctrl+$ws7_key move container to workspace number $ws17
 bindsym $mod+Shift+Ctrl+$ws8_key move container to workspace number $ws18
 bindsym $mod+Shift+Ctrl+$ws9_key move container to workspace number $ws19
 
+## Modify // Move Window to Next Free Workspace // <><Shift> ` ##
+set_from_resource $i3-wm.binding.move_next_free i3-wm.binding.move_next_free Shift+grave
+bindsym $mod+$i3-wm.binding.move_next_free exec --no-startup-id /usr/bin/i3-next-workspace --move-window
+
 # move focused container to workspace, move to workspace
 ## Modify // Carry Window to Workspace 1 - 10// <><Alt> 0..9 ##
 bindsym $mod+$alt+$ws1_key move container to workspace number $ws1; workspace number $ws1
@@ -335,9 +347,9 @@ bindsym $mod+$alt+Ctrl+$ws7_key move container to workspace number $ws17; worksp
 bindsym $mod+$alt+Ctrl+$ws8_key move container to workspace number $ws18; workspace number $ws18
 bindsym $mod+$alt+Ctrl+$ws9_key move container to workspace number $ws19; workspace number $ws19
 
-## Modify // Carry Window to Next Free Workspace // <><Shift> ` ##
+## Modify // Carry Window to Next Free Workspace // <><Alt> ` ##
 set_from_resource $i3-wm.binding.take_next_free i3-wm.binding.take_next_free Mod1+grave
-bindsym $mod+$i3-wm.binding.take_next_free exec --no-startup-id /usr/share/i3xrocks/next-workspace --startnum 1 --move-window-and-follow
+bindsym $mod+$i3-wm.binding.take_next_free exec --no-startup-id /usr/bin/i3-next-workspace --move-window-and-follow
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
