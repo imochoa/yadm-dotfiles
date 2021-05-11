@@ -33,3 +33,7 @@ fi
 # export XDG_DATA_HOME="$XDG_CONFIG_HOME/local/share"
 # DON't MESS WITH THE CACHE DIR -> NAUTILUS NEEDS TO FIND THE ~/.cache/tracker/meta.db
 # export XDG_CACHE_HOME="$XDG_CONFIG_HOME/cache"
+
+# Nautilus' Tracker reads config at ~/.config/tracker/tracker-miner-fs.cfg
+# If this flag is set 
+# export TRACKER_USE_CONFIG_FILES=1

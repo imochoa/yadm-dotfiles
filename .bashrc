@@ -121,18 +121,22 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 
 
 # --------------------------------------------------------------------------------
-# ALIAS DEFINITIONS
+# COMMON ALIAS & FUNCTION DEFINITIONS
 # --------------------------------------------------------------------------------
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
 if [ -f ~/.config/shell/aliases ]; then
-    . ~/.config/shell/aliases
+    source ~/.config/shell/aliases
+fi
+
+if [ -f ~/.config/shell/functions ]; then
+    source ~/.config/shell/functions
 fi
 
 # --------------------------------------------------------------------------------
-# FUNCTION DEFINITIONS
+# BASH-SPECIFIC FUNCTION DEFINITIONS
 # --------------------------------------------------------------------------------
 if [ -f ~/.config/bash/bash_functions ]; then
     source ~/.config/bash/bash_functions

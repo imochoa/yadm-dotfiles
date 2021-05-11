@@ -4,12 +4,40 @@
 
 # From https://thevaluable.dev/zsh-install-configure-mouseless/
 
+# Make sure the default home dir is set!
+if [[ -z "$XDG_CONFIG_HOME" ]]
+then
+        export XDG_CONFIG_HOME="$HOME/.config"
+else
+  echo "XDG_CONFIG_HOME WAS NOT SET!"
+fi
+
+## 
+#if [[ -d "$XDG_CONFIG_HOME/zsh" ]]
+#then
+#        export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+#else
+#  echo "NOT FOUND! $XDG_CONFIG_HOME/zsh"
+#fi
+
+#if [[ -z "$XDG_CONFIG_HOME" ]]
+#then
+#        export XDG_CONFIG_HOME="$HOME/.config"
+#fi
+
+#if [[ -d "$XDG_CONFIG_HOME/zsh" ]]
+#then
+#        export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+#fi
+
+
 # Set the base directory
 # export XDG_CONFIG_HOME="$HOME/.config" # Default value anyway
 # export XDG_DATA_HOME="$XDG_CONFIG_HOME/local/share"
 # DON't MESS WITH THE CACHE DIR -> NAUTILUS NEEDS TO FIND THE ~/.cache/tracker/meta.db
 # export XDG_CACHE_HOME="$XDG_CONFIG_HOME/cache"
 
+# export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
 # Editor
 export EDITOR="nvim"
@@ -17,9 +45,21 @@ export VISUAL="nvim"
 
 
 # ZSH env vars
-export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-export ZPLUGINS="$XDG_CONFIG_HOME/zsh/plugins"
+# export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+# export ZPLUGINS="$XDG_CONFIG_HOME/zsh/plugins"
+export ZDOTDIR="${HOME}/.config/zsh"
+export ZPLUGINS="${HOME}/.config/zsh/plugins"
 
+
+if [[ ! -d "$ZDOTDIR" ]]
+then
+    echo "ZDOTDIR NOT FOUND AT $ZDOTDIR"
+fi
+
+if [[ ! -d "$ZPLUGINS" ]]
+then
+    echo "ZPLUGINS NOT FOUND AT $ZPLUGINS"
+fi
 
 # --------------------------------------------------------------------------------
 # HISTORY ENV VARS

@@ -8,17 +8,24 @@ let g:coc_global_extensions = [
       \'coc-prettier',
       \'coc-eslint', 
       \'coc-clangd',
-      \'coc-jedi',
+      \'coc-pyright',
       \'coc-markdownlint',
-      \'coc-python',
       \'coc-sh',
       \'coc-json', 
       \'coc-yaml',
       \'coc-xml',
       \'coc-snippets',
+      \'coc-vimlsp',
       \'coc-lists',
       \'coc-highlight',
       \]
+
+
+" NOT ACTIVELY MAINTAINED
+" \'coc-python',
+"
+" Using pyright instead...
+" \'coc-jedi',
 
       " only works with  
       " conflicts with <leader>f for fzf

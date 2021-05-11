@@ -2,35 +2,62 @@
 # ~/.bash_aliases
 
 
+# ---------------------------------------------------------------------- 
+# ENCRYPTION
+# ---------------------------------------------------------------------- 
 # GPG Encryption
 # Simple symmetric encryption
 # alias gpg-encrypt='gpg --symmetric'
 # alias gpg-decrypt='gpg --decrypt '
 # Advanced symmetric encryption
-alias gpg-encrypt='gpg \
-    --symmetric \
-    --cipher-algo aes256 \
-    --digest-algo sha512 \
+alias gpg-encrypt='gpg        \
+    --symmetric               \
+    --cipher-algo aes256      \
+    --digest-algo sha512      \
     --cert-digest-algo sha512 \
     --compress-algo none -z 0 \
-    --s2k-mode 3 \
-    --s2k-digest-algo sha512 \
-    --s2k-count 65011712 \
-    --force-mdc \
-    --pinentry-mode loopback \
-    --armor \
-    --no-symkey-cache \
+    --s2k-mode 3              \
+    --s2k-digest-algo sha512  \
+    --s2k-count 65011712      \
+    --force-mdc               \
+    --pinentry-mode loopback  \
+    --armor                   \
+    --no-symkey-cache         \
 '
 # --output encrypted.gpg \
 
-alias gpg-decrypt='gpg \
-    --decrypt \
+alias gpg-decrypt='gpg       \
+    --decrypt                \
     --pinentry-mode loopback \
-    --armor \
+    --armor                  \
 '
 # --output somefile.gpg \
 
+# ---------------------------------------------------------------------- 
+# DISPLAY
+# ---------------------------------------------------------------------- 
 
+alias choose-primary-monitor='xrandr --listactivemonitors \
+  | tail -n +2                                            \
+  | cut -d " " -f6                                        \
+  | rofi -dmenu                                           \
+  | xargs -I% xrandr --output % --primary
+'
+
+alias lang='echo "us \nes" \
+  | rofi -dmenu             \
+  | xargs -I% setxkbmap %
+'
+
+# ---------------------------------------------------------------------- 
+# PYTHON
+# ---------------------------------------------------------------------- 
+alias pipup='pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U'
+
+
+# ---------------------------------------------------------------------- 
+# SHORTCUTS
+# ---------------------------------------------------------------------- 
 # Make aliases work with "sudo": https://askubuntu.com/questions/22037/aliases-not-available-when-using-sudo
 # We can tell bash to check the next word after the alias (i.e sudo) by adding a space to the end of the alias value.
 alias sudo='sudo '
@@ -42,16 +69,6 @@ alias uvim='neovim +PackUpdate +qall ; neovim +CocInstall +qall';
 alias vim='nvim';
 alias vi='nvim';
 alias v='nvim';
-
-# audio restart (from Ubuntu podcast)
-alias restart-audio='systemctl --user restart pulseaudio'
-# bad way to restart
-# pulseaudio -k && sudo alsa force-reload
-alias kill-slack='pkill slack'
-alias test-dunst='notify-send -u low "low urgency" ; notify-send -u normal "normal urgency" ;notify-send -u critical "critical urgency" ;'
-# alias kill-dunst='killall dunst; notify-send -u low "low urgency" ; notify-send -u normal "normal urgency" ;notify-send -u critical "critical urgency" ;'
-# Alias in alias
-alias kill-dunst='killall dunst; test-dunst'
 
 # rerun last command as root
 alias please='sudo !!'
@@ -69,17 +86,6 @@ alias mode='(set -o | grep emacs.*on >/dev/null 2>&1 && echo "emacs mode" || ech
 # alias la='ls -A'
 # # alias la='ls -Al'
 # alias lss='ls -lAsh'
-
-# git
-# Ignore changes to already tracked files
-alias untrack='git update-index --assume-unchanged'
-alias retrack='git update-index --no-assume-unchanged'
-alias backup-untracked='git ls-files --others --exclude-standard -z | xargs -0 tar rvf ~/backup-untracked.zip'
-alias git-interactive='git add --interactive'
-alias yadm-interactive='yadm add --interactive'
-
-# Reload dusnt config file
-alias dunst-reload='killall dunst; notify-send "reloaded the dunstrc file!"'
 
 # Like rm, but safer since it uses trash-cli
 alias tp=trash-put
@@ -126,6 +132,31 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+# Shorthand for programs
+alias fd='fdfind'
+
+# File explorer
+# alias r='ranger'
+alias r='lf'
+
+
+
+# ---------------------------------------------------------------------- 
+# GIT/YADM
+# ---------------------------------------------------------------------- 
+# git
+# Ignore changes to already tracked files
+alias untrack='git update-index --assume-unchanged'
+alias retrack='git update-index --no-assume-unchanged'
+alias backup-untracked='git ls-files --others --exclude-standard -z | xargs -0 tar rvf ~/backup-untracked.zip'
+alias git-interactive='git add --interactive'
+alias yadm-interactive='yadm add --interactive'
+
+
+
+# ---------------------------------------------------------------------- 
+# TOOLS
+# ---------------------------------------------------------------------- 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -145,9 +176,29 @@ alias audio-laptop='pacmd set-card-profile 0 output:analog-stereo+input:analog-s
 # docker stop $(docker ps -a -q)
 # docker rm $(docker ps -a -q)
 
-# Shorthand for programs
-alias fd='fdfind'
 
-# File explorer
-# alias r='ranger'
-alias r='lf'
+# ---------------------------------------------------------------------- 
+# RESTART & RELOAD
+# ---------------------------------------------------------------------- 
+
+# audio restart (from Ubuntu podcast)
+alias restart-audio='systemctl --user restart pulseaudio'
+
+# bad way to restart
+# pulseaudio -k && sudo alsa force-reload
+alias kill-slack='pkill slack'
+
+# alias test-dunst='notify-send -u low "low urgency" ; notify-send -u normal "normal urgency" ;notify-send -u critical "critical urgency" ;'
+# alias kill-dunst='killall dunst; notify-send -u low "low urgency" ; notify-send -u normal "normal urgency" ;notify-send -u critical "critical urgency" ;'
+# Alias in alias
+alias kill-dunst='killall dunst'
+
+# Reload dusnt config file
+# alias test-dunst='notify-send -u low "low urgency" ; notify-send -u normal "normal urgency" ;notify-send -u critical "critical urgency" ;'
+# alias kill-dunst='killall dunst; notify-send -u low "low urgency" ; notify-send -u normal "normal urgency" ;notify-send -u critical "critical urgency" ;'
+# Alias in alias
+# alias kill-dunst='killall dunst; test-dunst'
+alias dunst-reload='killall dunst           \
+  && notify-send -u low "low urgency"       \
+  && notify-send -u normal "normal urgency" \
+  && notify-send -u critical "critical urgency"'
