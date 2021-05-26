@@ -43,7 +43,13 @@ alias choose-primary-monitor='xrandr --listactivemonitors \
   | rofi -dmenu                                           \
   | xargs -I% xrandr --output % --primary
 '
+# xrandr -q | grep ' connected' | cut -f1 -d' '
 
+# xrandr \
+#   --output DP-1.2 --mode 2560x1440 --rate 58.0 --primary \
+#   --output eDP-1-1 --mode 2560x1440 --rate 58.0 \
+#   --same-as DP-1.2
+# --left-of DP other
 alias lang='echo "us \nes" \
   | rofi -dmenu             \
   | xargs -I% setxkbmap %
@@ -52,7 +58,7 @@ alias lang='echo "us \nes" \
 # ---------------------------------------------------------------------- 
 # PYTHON
 # ---------------------------------------------------------------------- 
-alias pipup='pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U'
+alias pip-upgrade='pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U'
 
 
 # ---------------------------------------------------------------------- 
@@ -60,76 +66,143 @@ alias pipup='pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 
 # ---------------------------------------------------------------------- 
 # Make aliases work with "sudo": https://askubuntu.com/questions/22037/aliases-not-available-when-using-sudo
 # We can tell bash to check the next word after the alias (i.e sudo) by adding a space to the end of the alias value.
+# TODO this is for bash....
 alias sudo='sudo '
+
 
 # Shell helpers
 # update & upgrade & autoremove
 alias uua='sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get autoremove -y'
 alias uvim='neovim +PackUpdate +qall ; neovim +CocInstall +qall';
-alias vim='nvim';
-alias vi='nvim';
-alias v='nvim';
+
 
 # rerun last command as root
 alias please='sudo !!'
-
-# some more aliases
-# Spelling mistakes
-alias ..='cd ..'
-alias cd..='cd ..'
 alias mode='(set -o | grep emacs.*on >/dev/null 2>&1 && echo "emacs mode" || echo "vi mode")'
 
-# ls shortcuts
-# alias l='ls -CF'
-# # alias l='ls -l'
-# alias ll='ls -AlF'
-# alias la='ls -A'
-# # alias la='ls -Al'
-# alias lss='ls -lAsh'
+# some more aliases
 
-# Like rm, but safer since it uses trash-cli
-alias tp=trash-put
-alias rm=trash-put
-alias tp-restore=trash-restore
+# ---------------------------------------------------------------------- 
+# cd
+# ---------------------------------------------------------------------- 
+alias ..='cd ..'
+alias cd..='cd ..'
 
-# Like cat, but nicer (needs cat)
-# alias cat='bat --style=plain'
-alias cat='batcat --style=plain'
 
-# Like ls, but nicer
-alias l='exa'
-alias la='exa -a'
-alias ll='exa -lah'
-alias ls='exa --color=auto'
+# ---------------------------------------------------------------------- 
+# nvim (should be done in .bashrc/.zshrc because of nvr [neovim remote])
+# ---------------------------------------------------------------------- 
+# if ! command -v 'nvim' &> /dev/null
+# then
+#   echo "nvim could not be found! Defaulting to vim..."
+# else
+#   alias vim='nvim';
+#   alias vi='nvim';
+#   alias v='nvim';
+# fi
 
-# tree with color
-# alias tree='tree -C'
-# alias trls='tree -C | less -R'	# -C outputs colour, -R makes less understand color
-# using exa as the tree
+# ---------------------------------------------------------------------- 
+# rm
+# ---------------------------------------------------------------------- 
+if ! command -v 'trash-put' &> /dev/null
+then
+  echo "trash-put could not be found! Defaulting to rm..."
+else
+  # Like rm, but safer since it uses trash-cli
+  alias tp=trash-put
+  alias rm=trash-put
+  alias tp-restore=trash-restore
+  alias tp-undo=trash-restore
+fi
 
-# Like tree, but nicer (needs exa)
-alias tree='exa --tree'
+# ---------------------------------------------------------------------- 
+# cat
+# ---------------------------------------------------------------------- 
+if command -v 'batcat' &> /dev/null
+then
+  alias cat='batcat --style=plain'
+elif  command -v 'bat' &> /dev/null
+then
+  alias cat='bat --style=plain'
+else
+  echo "bat could not be found! Defaulting to cat..."
+fi
 
-# Like less, but adds better highlighting (needs source-highlight)
-alias lessh='LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s" less -M '
+# ---------------------------------------------------------------------- 
+# ls
+# ---------------------------------------------------------------------- 
+if ! command -v 'exa' &> /dev/null
+then
+  echo "exa could not be found! Defaulting to ls..."
+  alias l='ls -CF'
+  # alias l='ls -l'
+  alias ll='ls -AlF'
+  alias la='ls -A'
+  # alias la='ls -Al'
+  alias lss='ls -lAsh'
+  alias tree='tree -C'
+  alias trls='tree -C | less -R'	# -C outputs colour, -R makes less understand color
+else
+  alias l='exa'
+  alias la='exa -a'
+  alias ll='exa -lah'
+  alias ls='exa --color=auto'
+  alias tree='exa --tree'
+fi
+
+
+# ---------------------------------------------------------------------- 
+# less
+# ---------------------------------------------------------------------- 
+if [ ! -f "/usr/share/source-highlight/src-hilite-lesspipe.sh" ]; then
+    echo "source-highlight not found! Defaulting to less"
+else
+ # export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
+ alias less='LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s" less -M -R '
+ # export LESS=' -R '
+# alias lessh='LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s" less -M '
 # export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
-export LESS=' -R '
+fi
 
-# Find big files/directories
-alias space-left=baobab
 
-# Copy with progress bar
-alias cpv='rsync -ah --info=progress2'
-
+# ---------------------------------------------------------------------- 
+# colors
+# ---------------------------------------------------------------------- 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     # alias ls='ls --color=auto'
     alias dir='dir --color=auto'
     alias vdir='vdir --color=auto'
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+fi
+
+# ---------------------------------------------------------------------- 
+# ssh
+# ---------------------------------------------------------------------- 
+if ! command -v 'xxh' &> /dev/null
+then
+  echo "xxh could not be found! Defaulting to ssh..."
+  alias hss='ssh'
+else
+  # echo "learn how to use xxh..."
+  # alias ssh='xxh'
+  # alias hss='xxh'
+fi
+
+# ---------------------------------------------------------------------- 
+# grep
+# ---------------------------------------------------------------------- 
+if ! command -v 'rg' &> /dev/null
+then
+  echo "rg (ripgrep) could not be found! Defaulting to grep..."
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
+else
+  alias grep='grep --color=auto'
+  # alias grep='rg'
+  alias fgrep='rg'
+  alias egrep='rg'
 fi
 
 # Shorthand for programs
@@ -171,6 +244,12 @@ alias audio-laptop='pacmd set-card-profile 0 output:analog-stereo+input:analog-s
 # https://unix.stackexchange.com/questions/62818/how-can-i-switch-between-different-audio-output-hardware-using-the-shell
 # alias audio-hdmi='pacmd set-card-profile 0 output:hdmi-stereo+input:analog-stereo'
 # xrandr --output <other screen> --same-as <main screen>
+
+# Find big files/directories
+alias space-left=baobab
+
+# Copy with progress bar
+alias cpv='rsync -ah --info=progress2'
 
 # Docker
 # docker stop $(docker ps -a -q)
