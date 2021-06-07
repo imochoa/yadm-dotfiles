@@ -121,25 +121,41 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 
 
 # --------------------------------------------------------------------------------
+# NAVIGATION
+# --------------------------------------------------------------------------------
+# Try to load autojump
+if [ -f "/usr/share/autojump/autojump.sh" ]; then
+  source "/usr/share/autojump/autojump.sh"
+else 
+  echo "Could not find /usr/share/autojump/autojump.sh"
+fi
+
+# --------------------------------------------------------------------------------
 # COMMON ALIAS & FUNCTION DEFINITIONS
 # --------------------------------------------------------------------------------
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
-if [ -f ~/.config/shell/aliases ]; then
-    source ~/.config/shell/aliases
+if [ -f "$HOME/.config/shell/aliases" ]; then
+  source "$HOME/.config/shell/aliases"
+else 
+  echo "Could not find $HOME/.config/shell/aliases"
 fi
 
-if [ -f ~/.config/shell/functions ]; then
-    source ~/.config/shell/functions
+if [ -f "$HOME/.config/shell/functions" ]; then
+  source "$HOME/.config/shell/functions"
+else 
+  echo "Could not find $HOME/.config/shell/functions"
 fi
 
 # --------------------------------------------------------------------------------
 # BASH-SPECIFIC FUNCTION DEFINITIONS
 # --------------------------------------------------------------------------------
-if [ -f ~/.config/bash/bash_functions ]; then
-    source ~/.config/bash/bash_functions
+if [ -f "$HOME/.config/bash/bash_functions" ]; then
+  source "$HOME/.config/bash/bash_functions"
+else 
+  echo "Could not find $HOME/.config/bash/bash_functions"
 fi
 
 # --------------------------------------------------------------------------------
@@ -158,9 +174,13 @@ if ! shopt -oq posix; then
 fi
 
 # My LOCAL autocompletion files
-for bcfile in ~/.config/bash/bash_completion/* ; do
-  [ -f "$bcfile" ] && . $bcfile
-done
+if [ -d "$HOME/.config/bash/bash_completion" ]; then
+  for bcfile in "$HOME/.config/bash/bash_completion/*" ; do
+    [ -f "$bcfile" ] && . $bcfile
+  done
+else 
+  echo "Could not find $HOME/.config/bash/bash_completion/"
+fi
 
 # AUTOCOMPLETION FOR ALIASES
 # --------------------------------------------------------------------------------
@@ -236,6 +256,7 @@ function alias_completion {
     source "$tmp_file" && rm -f "$tmp_file"
 }; alias_completion
 
+# --------------------------------------------------------------------------------
 # CONFIGURE EDITOR
 # --------------------------------------------------------------------------------
 
