@@ -4,7 +4,9 @@
 
 # From https://thevaluable.dev/zsh-install-configure-mouseless/
 
+# --------------------------------------------------------------------------------
 # Make sure the default home dir is set!
+# --------------------------------------------------------------------------------
 if [[ -z "$XDG_CONFIG_HOME" ]]
 then
         export XDG_CONFIG_HOME="$HOME/.config"
@@ -39,12 +41,10 @@ fi
 
 # export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
-# Editor
-export EDITOR="nvim"
-export VISUAL="nvim"
 
-
-# ZSH env vars
+# --------------------------------------------------------------------------------
+# ZSH ENV VARS
+# --------------------------------------------------------------------------------
 # export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 # export ZPLUGINS="$XDG_CONFIG_HOME/zsh/plugins"
 export ZDOTDIR="${HOME}/.config/zsh"
@@ -73,4 +73,21 @@ fi
 # # Ignore interactive commands from history
 # export HISTORY_IGNORE="(ls|bg|fg|pwd|exit|cd ..)"
 
+# # --------------------------------------------------------------------------------
+# # LESS ENV VARS
+# # --------------------------------------------------------------------------------
+# SOURCEHLIGHT='/usr/share/source-highlight/src-hilite-lesspipe.sh'
+# if [ ! -f "${SOURCEHLIGHT}" ]; then
+#     echo "${SOURCEHLIGHT} not found!" >&2
+#     # exit 1
+# else
+#  export LESSOPEN="| ${SOURCEHLIGHT} %s"
+#  export LESS=' -R '
+# fi
+
+# --------------------------------------------------------------------------------
+# EDITOR ENV VARS
+# --------------------------------------------------------------------------------
+export EDITOR="nvim"
+export VISUAL="nvim"
 

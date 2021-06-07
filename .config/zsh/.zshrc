@@ -1,5 +1,8 @@
 #!/usr/bin/env zsh
 
+# Inspiration:
+# https://linuxious.com/files/zsh/
+
 # .zshrc - Should be used for the shell configuration and for executing commands.
 
 ##Zsh read these files in the following order:
@@ -50,6 +53,13 @@ autoload -Uz promptinit; promptinit
 # NAVIGATE
 # --------------------------------------------------------------------------------
 setopt AUTO_CD # If just inputting a directory, cd into it
+
+# Try to load autojump
+if [ -f "/usr/share/autojump/autojump.sh" ]; then
+  source "/usr/share/autojump/autojump.sh"
+else 
+  echo "Could not find /usr/share/autojump/autojump.sh"
+fi
 
 # --------------------------------------------------------------------------------
 # HISTORY OPTIONS
@@ -138,16 +148,29 @@ bindkey -M menuselect '^h' vi-backward-char
 
 
 # --------------------------------------------------------------------------------
-# ALIASES 
+# COMMON SHELL FILES 
 # --------------------------------------------------------------------------------
-# Load if they exist
-[ -f "$HOME/.config/shell/aliases" ] && source "$HOME/.config/shell/aliases"
+if [ -f "$HOME/.config/shell/aliases" ]; then
+  source "$HOME/.config/shell/aliases"
+else 
+  echo "Could not find $HOME/.config/shell/aliases"
+fi
+
+if [ -f "$HOME/.config/shell/functions" ]; then
+  source "$HOME/.config/shell/functions"
+else 
+  echo "Could not find $HOME/.config/shell/functions"
+fi
 
 # --------------------------------------------------------------------------------
-# FUNCTIONS
+# ZSH-SPECIFIC FILES
 # --------------------------------------------------------------------------------
-# Load if they exist
-[ -f "$HOME/.config/zsh/zsh_functions" ] && source "$HOME/.config/zsh/zsh_functions"
+
+if [ -f "$HOME/.config/zsh/zsh_functions" ]; then
+  source "$HOME/.config/zsh/zsh_functions"
+else 
+  echo "Could not find $HOME/.config/zsh/zsh_functions"
+fi
 
 # --------------------------------------------------------------------------------
 # BASH COMPLETION

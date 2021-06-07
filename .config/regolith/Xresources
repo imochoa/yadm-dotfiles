@@ -13,26 +13,9 @@
 ! keybindings:
 ! https://regolith-linux.org/docs/reference/keybindings/
 
-! ------------------------------------------------------------------------
-! i3 bar
-! ------------------------------------------------------------------------
-i3-wm.bar.position: top
-i3-wm.bar.trayoutput:	primary
 
-! ------------------------------------------------------------------------
-! Choose compositor
-! ------------------------------------------------------------------------
-! (list all compositors with: `apt search regolith-compositor-` )
-
-! Default
-! regolith-compositor-picom-glx
-
-i3-wm.program.compositor:	none
-! regolith-compositor-none
-! sudo apt install regolith-compositor-none
-
-! regolith-compositor-compton-glx
-! regolith-compositor-xcompmgr
+! New notifications??
+! i3-wm.program.notification_ui	Command to launch from the notification UI keybinding
 
 
 ! ------------------------------------------------------------------------
@@ -42,7 +25,7 @@ i3-wm.program.compositor:	none
 !               192 = x2 scaling
 
 
-Xft.dpi: 192
+! Xft.dpi: 192
 
 ! These might also be useful depending on your monitor and personal preference:
 ! Xft.autohint: 0
@@ -53,18 +36,360 @@ Xft.dpi: 192
 ! Xft.rgba: rgb
 
 
+! ------------------------------------------------------------------------
+! Window manager
+! ------------------------------------------------------------------------
+
+! Window manager font (titles of the windows at the top when stacking)
+i3-wm.font: pango:UbuntuMono 20
+
+
+
+! Borders
+! ------------------------------------------------------------------------
+! Make it clearer to see the active window
+
+! THICKNESS
+! i3-wm.window.border.size: 2
+i3-wm.window.border.size: 5
+! i3-wm.floatingwindow.border.size:       1
+i3-wm.floatingwindow.border.size:       4
+
+! COLOR
+! i3-wm.client.focused.color.child_border: #BFBAB0
+! i3-wm.client.focused.color.child_border: #00FF00
+! i3-wm.client.focused.color.child_border: #85C1E9 
+
+! i3-wm.client.focused.color.border:      #1F2430
+! i3-wm.client.focused.color.border: #85C1E9 
+
+! i3-wm.client.focused_inactive.color.border:     #1F2430
+! i3-wm.client.focused_inactive.color.child_border:       #1F2430
+
+! i3-wm.client.unfocused.color.border:    #1F2430
+! i3-wm.client.unfocused.color.child_border:      #1F2430
+
+! i3-wm.client.urgent.color.border:       #1F2430
+! i3-wm.client.urgent.color.child_border: #1F2430
+
+
+! I3 bar
+! ------------------------------------------------------------------------
+i3-wm.bar.position: top
+i3-wm.bar.trayoutput:	primary
+
+!i3-wm.bar.trayoutput: none # disable system tray
+!i3-wm.bar.trayoutput: primary # show tray icons on the primary monitor
+! Note that you might not have a primary output configured yet. To do so, run:
+
+! FIND OUTPUT:
+!     xrandr --listactivemonitors
+! SET IT:
+!     xrandr --output <output> --primary
+!
+!     eg. xrandr --output HDMI-0 --primary
+! xrandr --listactivemonitors | tail -n +2 |  cut -d ' ' -f6
+! xrandr --listactivemonitors | tail -n +2 |  cut -d ' ' -f6 | rofi -dmenu
+! xrandr --listactivemonitors | tail -n +2 |  cut -d ' ' -f6 | rofi -dmenu | xargs -I% xrandr --output % --primary
+
+
+! Pango font specification for font(s) TEXT rendered on the bar
+! i3-wm.bar.font: pango:UbuntuMono 24, Material Design Icons 30
+i3-wm.bar.font: pango:Material Design Icons 20
+
+! Font for NUMERICAL values in bar modules (like battery left)
+! i3xrocks.value.font:  pango:UbuntuMono 16
+i3xrocks.value.font:  pango:Material Design Icons 20
+
+
+!!$ echo "St.font: Source Code Pro:pixelsize=20:antialias=true:autohint=true" >> ~/.config/regolith/Xresources
+!$ echo "i3-wm.bar.font: pango:Source Code Pro Medium 20, Material Design Icons 20"  >> ~/.config/regolith/Xresources
+!$ echo "i3-wm.font:     pango:Source Code Pro Medium 20"  >> ~/.config/regolith/Xresources
+!$ echo "i3xrocks.value.font:    Source Code Pro Medium 20" >>  >> ~/.config/regolith/Xresources
+!$ echo "rofi.font:      Source Code Pro Medium 20" >> ~/.config/regolith/Xresources
+!$ regolith-look refresh
+
+! St.font: Source Code Pro:pixelsize=25:antialias=true:autohint=true
+! i3-wm.bar.font: pango:Source Code Pro Medium 25, Material Design Icons 30
+! i3-wm.font:     pango:Source Code Pro Medium 25
+! i3xrocks.value.font:    Source Code Pro Medium 25
+
+! ------------------------------------------------------------------------
+! Rofi (menus)
+! ------------------------------------------------------------------------
+! Default (pretty small on high-DPI screens)
+! rofi.font:	JetBrains Mono Medium 16 
+
+
+! Better on high-DPI screens
+rofi.font:	pango:UbuntuMono 26
+! rofi.font:	JetBrains Mono Medium 24
+
+! ------------------------------------------------------------------------
+! Change workspace labels
+! ------------------------------------------------------------------------
+! Standard names
+i3-wm.workspace.01.name:   1:  1
+i3-wm.workspace.02.name:   2:  2
+i3-wm.workspace.03.name:   3:  3
+i3-wm.workspace.04.name:   4:  4
+i3-wm.workspace.05.name:   5:  5
+i3-wm.workspace.06.name:   6:  6
+i3-wm.workspace.07.name:   7:  7
+i3-wm.workspace.08.name:   8:  8
+i3-wm.workspace.09.name:   9:  9
+i3-wm.workspace.10.name:  10: 10
+i3-wm.workspace.11.name:  11: 11
+i3-wm.workspace.12.name:  12: 12
+i3-wm.workspace.13.name:  13: 13
+i3-wm.workspace.14.name:  14: 14
+i3-wm.workspace.15.name:  15: 15
+i3-wm.workspace.16.name:  16: 16
+i3-wm.workspace.17.name:  17: 17
+i3-wm.workspace.18.name:  18: 18
+i3-wm.workspace.19.name:  19: 19
+
+! Override them
+
+! ❯ fc-list | grep material
+! /usr/share/fonts/truetype/materialdesignicons-webfont/materialdesignicons-webfont.ttf: Material Design Icons:style=Regular
+! /usr/share/fonts/woff/materialdesignicons-webfont/materialdesignicons-webfont.woff: Material Design Icons:style=Regular
+! https://mathew-kurian.github.io/CharacterMap/
+
+! Special fonts (for icons)
+
+! i3-wm.workspace.01.name:  1: 1-Web
+! i3-wm.workspace.01.name:  1: 1-
+! i3-wm.workspace.01.name:  1: <span font_desc='FontAwesome 18'>1 </span>
+! i3-wm.workspace.01.name:  1: 1- 
+! Cloud
+! i3-wm.workspace.01.name:  1: 1- 
+
+
+! i3-wm.workspace.02.name:  2: 2-Code
+! i3-wm.workspace.02.name:  2: <span font_desc='FontAwesome 18'>2 </span>
+! i3-wm.workspace.02.name:  2: 2-
+! Alpha
+! i3-wm.workspace.02.name:  2: 2-
+
+
+
+! i3-wm.workspace.03.name:  3: 3-Other
+! i3-wm.workspace.03.name:  3: 3-🤔
+! Beta
+! i3-wm.workspace.03.name:  3: 3-
+
+
+! i3-wm.workspace.04.name:  4: <span font_desc='JetBrains Mono Medium 18'>4 (=•́ܫ•̀=)</span>
+! i3-wm.workspace.03.name:  3: 3-
+! i3-wm.workspace.04.name:  4: 4-🤔
+
+
+! i3-wm.workspace.04.name:  4: 4 (=•́ܫ•̀=)
+
+! i3-wm.workspace.05.name:  5: 5
+! i3-wm.workspace.05.name:  5: 5-💩
+! i3-wm.workspace.06.name:  6: 6 -
+! i3-wm.workspace.07.name:  7: 7-🌯
+
+! 🎸🎶🎵🎼
+! i3-wm.workspace.08.name:  8: 8-Music
+! i3-wm.workspace.08.name:  8: <span font_desc='FontAwesome 18'>8 </span>
+! i3-wm.workspace.08.name:  8: 8-
+! NOTE 
+! i3-wm.workspace.08.name:  8: 8-
+! AMP: 
+! i3-wm.workspace.08.name:  8: 8-
+
+! i3-wm.workspace.10.name: 10: 10-TERM
+! i3-wm.workspace.10.name: 10: <span font_desc='FontAwesome 18'>10 </span>
+! i3-wm.workspace.10.name: 10: 10 
+! Window
+! i3-wm.workspace.10.name: 10: 10-
+
+! ------------------------------------------------------------------------
+! Choose compositor
+! ------------------------------------------------------------------------
+! (list all compositors with: `apt search regolith-compositor-` )
+! regolith-compositor-picom-glx # <--- DEFAULT
+! regolith-compositor-none
+! regolith-compositor-compton-glx
+! regolith-compositor-xcompmgr
+
+! Install:
+! sudo apt install regolith-compositor-picom-glx # <--- DEFAULT
+! sudo apt install regolith-compositor-none
+! sudo apt install regolith-compositor-compton-glx
+! sudo apt install regolith-compositor-xcompmgr
+
+! i3-wm.program.compositor:	none
+! i3-wm.program.compositor:	picom-glx
 
 
 ! ------------------------------------------------------------------------
+! Terminals
+! ------------------------------------------------------------------------
+
+! St Terminal
+! ------------------------------------------------------------------------
+! Font definition for st-term
+! St.font: pango:UbuntuMono:pixelsize=25:antialias=true:autohint=true
+
+! ------------------------------------------------------------------------
+! GNOME
+! ------------------------------------------------------------------------
+! gnome.gtk.theme:        Ayu-Mirage-Dark
+! gnome.icon.theme:       Moka
+! gnome.wallpaper:        /usr/share/backgrounds/ESP_016895_1525_desktop.jpg
+! gnome.wm.theme: Ayu-Mirage-Dark
+
 ! Gnome Terminal
 ! ------------------------------------------------------------------------
 
-gnome.terminal.use-transparent-background: true
 ! gnome.terminal.font:	JetBrains Mono 12 ! Default
-gnome.terminal.font:	JetBrains Mono 14
+! gnome.terminal.font:	JetBrains Mono 14
+! gnome.terminal.font:    JetBrains Mono 12
+! gnome.terminal.scrollbar:       never
+gnome.terminal.use-transparent-background: false
+! gnome.terminal.use-transparent-background: true
 
 ! ------------------------------------------------------------------------
-! Rofi
+! External programs to start
 ! ------------------------------------------------------------------------
-! rofi.font:	JetBrains Mono Medium 16 ! Default
-rofi.font:	JetBrains Mono Medium 24
+i3-wm.program.1: greenclip
+! i3-wm.program.2: todo
+! i3-wm.program.3: todo
+
+! ALL KEYS
+! Xresources Key                                     	 Description
+
+! St.color0-St.color15                               	 Color definitions for terminal
+! St.font                                            	 Font definition for st-term
+
+! Xcursor.size                                       	 X cursor size
+! Xcursor.theme                                      	 X cursor theme
+
+! Xft.antialias                                      	 X anti-alias flag
+! Xft.dpi                                            	 X DPI setting
+! Xft.hinting                                        	 X hinting
+! Xft.hintstyle                                      	 X hint style
+! Xft.rgba                                           	 X rgb setting
+
+! gnome.gtk.theme                                    	 GTK Theme
+! gnome.icon.theme                                   	 GTK Icon Theme
+
+! gnome.terminal.audible-bell                        	 Enables audible bell in gnome-terminal (true | false)
+! gnome.terminal.background-transparency-percent     	 Background transparency value for gnome-terminal (0 - 100). See also gnome.terminal.use-transparent-background.
+! gnome.terminal.font                                	 Font definition for gnome-terminal
+! gnome.terminal.scrollbar                           	 Flag to enable/disable scrollbar (never | always)
+! gnome.terminal.use-transparent-background          	 Enables transparent background in gnome-terminal (true | false). See also gnome.terminal.background-transparency-percent.
+! gnome.wallpaper                                    	 GNOME Wallpaper (can be overridden in Settings)
+! gnome.wm.theme                                     	 GNOME Window Manager Theme (unused)
+
+! i3-wm.alt                                          	 Key mapping for Alt key. See the i3 User Guide for details.
+
+! i3-wm.bar.background.color                         	 Bar Background Color
+! i3-wm.bar.font                                     	 Bar Font                                                                                                                  	 Pango font specification for font(s) rendered on the bar
+! i3-wm.bar.position                                 	 Bar Screen Position
+! i3-wm.bar.separator.color                          	 Color of seperator between blocks
+! i3-wm.bar.statusline.color
+! i3-wm.bar.trayoutput                               	 Enable or disable the app tray in i3bar
+! i3-wm.bar.workspace.active.background.color
+! i3-wm.bar.workspace.active.border.color
+! i3-wm.bar.workspace.active.text.color
+! i3-wm.bar.workspace.focused.background.color
+! i3-wm.bar.workspace.focused.border.color
+! i3-wm.bar.workspace.focused.text.color
+! i3-wm.bar.workspace.inactive.background.color
+! i3-wm.bar.workspace.inactive.border.color
+! i3-wm.bar.workspace.inactive.text.color
+! i3-wm.bar.workspace.urgent.background.color
+! i3-wm.bar.workspace.urgent.border.color
+! i3-wm.bar.workspace.urgent.text.color
+
+! i3-wm.client.focused.color.background
+! i3-wm.client.focused.color.border
+! i3-wm.client.focused.color.child_border
+! i3-wm.client.focused.color.indicator
+! i3-wm.client.focused.color.text
+! i3-wm.client.focused_inactive.color.background
+! i3-wm.client.focused_inactive.color.border
+! i3-wm.client.focused_inactive.color.child_border
+! i3-wm.client.focused_inactive.color.indicator
+! i3-wm.client.focused_inactive.color.text
+! i3-wm.client.unfocused.color.background
+! i3-wm.client.unfocused.color.border
+! i3-wm.client.unfocused.color.child_border
+! i3-wm.client.unfocused.color.indicator
+! i3-wm.client.unfocused.color.text
+! i3-wm.client.urgent.color.background
+! i3-wm.client.urgent.color.border
+! i3-wm.client.urgent.color.child_border
+! i3-wm.client.urgent.color.indicator
+! i3-wm.client.urgent.color.text
+
+! i3-wm.floatingwindow.border.size                   	 Window border size in pixels for floating windows
+
+! i3-wm.font                                         	 Window manager font
+
+! i3-wm.gaps.inner.size                              	 Default gap size between windows in pixels
+! i3-wm.gaps.outer.size                              	 Default gap size at screen edge in pixels
+
+! i3-wm.mod                                          	 Key mapping for Super key. See the i3 User Guide for details.
+
+! i3-wm.window.border.size                           	 Default border size in pixels
+
+! i3-wm.workspace.01.name .. i3-wm.workspace.19.name 	 Workspace Labels
+! i3-wm.workspace.01.key .. i3-wm.workspace.10.key   	 Workspace Shortucts
+
+! i3xrocks.action.volume.left                        	 Command to execute when volume indicator is left clicked (default: none)
+! i3xrocks.action.volume.middle                      	 Command to execute when volume indicator is middle clicked (default: none)
+! i3xrocks.action.volume.right                       	 Command to execute when volume indicator is right clicked (default: mute through amixer)
+! i3xrocks.action.volume.scrollup                    	 Command to execute when scroll wheel up is used on volume indicator (default: increase volume through amixer)
+! i3xrocks.action.volume.scrolldn                    	 Command to execute when scroll wheel down is used on volume indicator (default: decrease volume through amixer)
+
+! i3xrocks.error.color                               	 Color for bar module in error mode
+
+! i3xrocks.label.battery0                            	 Bar icon glyph
+! i3xrocks.label.battery100                          	 Bar icon glyph
+! i3xrocks.label.battery20                           	 Bar icon glyph
+! i3xrocks.label.battery50                           	 Bar icon glyph
+! i3xrocks.label.battery80                           	 Bar icon glyph
+! i3xrocks.label.batteryac                           	 Bar icon glyph
+! i3xrocks.label.batterycharging                     	 Bar icon glyph
+! i3xrocks.label.batteryunknown                      	 Bar icon glyph
+! i3xrocks.label.capslock                            	 Bar icon glyph
+! i3xrocks.label.color                               	 Bar icon glyph
+! i3xrocks.label.cpu                                 	 Bar icon glyph
+! i3xrocks.label.disk                                	 Bar icon glyph
+! i3xrocks.label.dn                                  	 Bar icon glyph
+! i3xrocks.label.help                                	 Bar icon glyph
+! i3xrocks.label.mediapaused                         	 Bar icon glyph
+! i3xrocks.label.mediaplaying                        	 Bar icon glyph
+! i3xrocks.label.memory                              	 Bar icon glyph
+! i3xrocks.label.mute                                	 Bar icon glyph
+! i3xrocks.label.notify.error                        	 Bar icon glyph
+! i3xrocks.label.notify.none                         	 Bar icon glyph
+! i3xrocks.label.notify.some                         	 Bar icon glyph
+! i3xrocks.label.numlock                             	 Bar icon glyph
+! i3xrocks.label.off                                 	 Bar icon glyph
+! i3xrocks.label.on                                  	 Bar icon glyph
+! i3xrocks.label.sound                               	 Bar icon glyph
+! i3xrocks.label.thermometer                         	 Bar icon glyph
+! i3xrocks.label.time                                	 Bar icon glyph
+! i3xrocks.label.up                                  	 Bar icon glyph
+! i3xrocks.label.wifi                                	 Bar icon glyph
+! i3xrocks.label.wired                               	 Bar icon glyph
+! i3xrocks.nominal                                   	 Default bar icon color
+! i3xrocks.value.color                               	 Color of numerical value in bar module
+! i3xrocks.value.font                                	 Font for numerical value in bar module
+! i3xrocks.warning                                   	 Warning color for bar module
+
+! rofi.drun-display-format                           	 Fields to render in drun mode in Rofi
+! rofi.icon-theme                                    	 Rofi icon theme
+! rofi.font                                          	 Rofi font
+! rofi.modi                                          	 Rofi modes
+! rofi.show-icons                                    	 true if the Rofi dialog should render app icons, false otherwise
+! rofi.theme                                         	 Path to the Rofi theme file
+! rofi.window-format
+

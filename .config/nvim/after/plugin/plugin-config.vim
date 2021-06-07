@@ -1,13 +1,13 @@
-" -----------------------------------
+" ----------------------------------------------------------------------
 " Plugin configuration
-" ----------------------------------- 
+" ----------------------------------------------------------------------
 
 " filetype plugin on
 filetype plugin indent on
 
-" ---------
+" -----------------------------------
 " NEW fzf.vim 
-" ---------
+" -----------------------------------
 if has('nvim') || has('gui_running')
   let $FZF_DEFAULT_OPTS .= ' --inline-info'
 endif
@@ -136,9 +136,9 @@ command! PlugHelp call fzf#run(fzf#wrap({
   \ 'sink':   function('s:plug_help_sink')}))
 
 
-" ---------
+" -----------------------------------
 " fzf.vim 
-" ---------
+" -----------------------------------
 " 
 
 " " Search with icons!
@@ -220,9 +220,9 @@ command! PlugHelp call fzf#run(fzf#wrap({
 " Tips 8 & 9
 
 
-" ---------
+" -----------------------------------
 " Ultisnips
-" ---------
+" -----------------------------------
 " Where should it look for snippet files (coc-snippets also has paths)
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "mycoolsnippets"]
 
@@ -243,9 +243,9 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 let g:UltiSnipsEditSplit="vertical"
 
 
-" ---------
+" -----------------------------------
 " ALE
-" ---------
+" -----------------------------------
 
 
 " For JavaScript files, use `eslint` (and only eslint)
@@ -290,9 +290,9 @@ let g:UltiSnipsEditSplit="vertical"
 " https://github.com/sakhnik/nvim-gdb
 
 
-" ---------
+" -----------------------------------
 " COC (Conquer Of Completion)
-" ---------
+" -----------------------------------
 source $HOME/.config/nvim/after/plugin/coc.vim
 
 " nvim-editcommand 
@@ -325,8 +325,8 @@ source $HOME/.config/nvim/after/plugin/coc.vim
 "   \ 'set_tkeymaps': "NvimGdbNoTKeymaps",
 "   \ }
 
-" ---------
+" -----------------------------------
 " Vimspector
-" ---------
+" -----------------------------------
 
 let g:vimspector_enable_mappings = 'HUMAN'

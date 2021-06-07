@@ -82,8 +82,6 @@ call minpac#add('godlygeek/tabular')
 call minpac#add('tpope/vim-scriptease', {'type': 'opt'})
 
 
-" netrw extensions
-call minpac#add('tpope/vim-vinegar')
 
 " managing sessions
 call minpac#add('tpope/vim-obsession')
@@ -107,6 +105,26 @@ call minpac#add('neoclide/coc.nvim', {'branch':'release'})
 " Plantuml syntax
 call minpac#add('aklt/plantuml-syntax')
 
+" -----------------------------------
+" netrw
+" ----------------------------------- 
+" " netrw extensions
+" call minpac#add('tpope/vim-vinegar')
+
+" " fern: better than netrw
+" call minpac#add('lambdalisue/fern.vim')
+
+" " nicer fern fonts & icons
+" call minpac#add('lambdalisue/nerdfont.vim')
+" call minpac#add('lambdalisue/fern-renderer-nerdfont.vim')
+
+" " required until https://github.com/neovim/neovim/issues/12587 is fixed
+" call minpac#add('antoinemadec/FixCursorHold.nvim')
+" " in millisecond, used for both CursorHold and CursorHoldI,
+" " use updatetime instead if not defined
+" let g:cursorhold_updatetime = 100
+
+" Using coc-exporer...
 
 " -----------------------------------
 " Visual Plugins
@@ -138,6 +156,6 @@ call minpac#add('mengelbrecht/lightline-bufferline', {'type': 'opt'})
 " call minpac#add('vim-jp/syntax-vim-ex')
 
 " Icons on things (netrw not yet supported but there's an issue for it!)
-call minpac#add('ryanoasis/vim-devicons')
+" call minpac#add('ryanoasis/vim-devicons')
 " devicons should go AFTER lightline
 

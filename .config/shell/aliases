@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 # ~/.bash_aliases
 
+alias tar-dir='tar \
+  -zcvf \
+  compressed-`date`.tar.gz \
+'
+# /path/to/dir/
 
 # ---------------------------------------------------------------------- 
 # ENCRYPTION
@@ -110,7 +115,7 @@ then
 else
   # Like rm, but safer since it uses trash-cli
   alias tp=trash-put
-  alias rm=trash-put
+  alias rm='echo "\033[0;31mDO NOT USE rm!\033[0m"; rm'
   alias tp-restore=trash-restore
   alias tp-undo=trash-restore
 fi
@@ -225,7 +230,15 @@ alias backup-untracked='git ls-files --others --exclude-standard -z | xargs -0 t
 alias git-interactive='git add --interactive'
 alias yadm-interactive='yadm add --interactive'
 
+# ---------------------------------------------------------------------- 
+# du
+# ---------------------------------------------------------------------- 
+# Ignore changes to already tracked files
+alias duh='du -d 1 -h | sort -h'
+# du -h -d2 | sort -h
 
+# add?
+# https://github.com/bootandy/dust/releases/download/v0.5.4/dust-v0.5.4-x86_64-unknown-linux-gnu.tar.gz
 
 # ---------------------------------------------------------------------- 
 # TOOLS
