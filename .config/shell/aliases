@@ -190,6 +190,7 @@ then
   alias hss='ssh'
 else
   # echo "learn how to use xxh..."
+  echo ;
   # alias ssh='xxh'
   # alias hss='xxh'
 fi
