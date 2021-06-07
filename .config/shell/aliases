@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # ~/.config/shell/aliases
 
-alias tar-dir='tar \
-  -zcvf \
+alias tar-dir='tar         \
+  -zcvf                    \
   compressed-`date`.tar.gz \
 '
 # /path/to/dir/
@@ -46,7 +46,7 @@ alias choose-primary-monitor='xrandr --listactivemonitors \
   | tail -n +2                                            \
   | cut -d " " -f6                                        \
   | rofi -dmenu                                           \
-  | xargs -I% xrandr --output % --primary
+  | xargs -I% xrandr --output % --primary                 \
 '
 # xrandr -q | grep ' connected' | cut -f1 -d' '
 
@@ -55,9 +55,9 @@ alias choose-primary-monitor='xrandr --listactivemonitors \
 #   --output eDP-1-1 --mode 2560x1440 --rate 58.0 \
 #   --same-as DP-1.2
 # --left-of DP other
-alias lang='echo "us \nes" \
-  | rofi -dmenu             \
-  | xargs -I% setxkbmap %
+alias lang='echo -e "us \nes" \
+  | rofi -dmenu               \
+  | xargs -I% setxkbmap %     \
 '
 
 # ---------------------------------------------------------------------- 
@@ -291,10 +291,11 @@ alias kill-dunst='killall dunst'
 # alias kill-dunst='killall dunst; notify-send -u low "low urgency" ; notify-send -u normal "normal urgency" ;notify-send -u critical "critical urgency" ;'
 # Alias in alias
 # alias kill-dunst='killall dunst; test-dunst'
-alias dunst-reload='killall dunst           \
-  && notify-send -u low "low urgency"       \
-  && notify-send -u normal "normal urgency" \
-  && notify-send -u critical "critical urgency"'
+alias dunst-reload='killall dunst               \
+  && notify-send -u low "low urgency"           \
+  && notify-send -u normal "normal urgency"     \
+  && notify-send -u critical "critical urgency" \
+'
 
 # ---------------------------------------------------------------------- 
 # UTILS
@@ -304,5 +305,5 @@ alias sort-json-files='fdfind                           \
   -ejson -p . .                                         \
   -x /bin/bash -c                                       \
   " echo \"{}\" && python -m json.tool {} | sponge {} " \
-  '
+'
 
