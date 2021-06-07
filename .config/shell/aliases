@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ~/.bash_aliases
+# ~/.config/shell/aliases
 
 alias tar-dir='tar \
   -zcvf \
@@ -66,13 +66,13 @@ alias lang='echo "us \nes" \
 alias pip-upgrade='pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U'
 
 
-# ---------------------------------------------------------------------- 
-# SHORTCUTS
-# ---------------------------------------------------------------------- 
-# Make aliases work with "sudo": https://askubuntu.com/questions/22037/aliases-not-available-when-using-sudo
-# We can tell bash to check the next word after the alias (i.e sudo) by adding a space to the end of the alias value.
-# TODO this is for bash....
-alias sudo='sudo '
+# # ---------------------------------------------------------------------- 
+# # SHORTCUTS
+# # ---------------------------------------------------------------------- 
+# # Make aliases work with "sudo": https://askubuntu.com/questions/22037/aliases-not-available-when-using-sudo
+# # We can tell bash to check the next word after the alias (i.e sudo) by adding a space to the end of the alias value.
+# # TODO this is for bash....
+# alias sudo='sudo '
 
 
 # Shell helpers
@@ -294,3 +294,14 @@ alias dunst-reload='killall dunst           \
   && notify-send -u low "low urgency"       \
   && notify-send -u normal "normal urgency" \
   && notify-send -u critical "critical urgency"'
+
+# ---------------------------------------------------------------------- 
+# UTILS
+# ---------------------------------------------------------------------- 
+
+alias sort-json-files='fdfind                           \
+  -ejson -p . .                                         \
+  -x /bin/bash -c                                       \
+  " echo \"{}\" && python -m json.tool {} | sponge {} " \
+  '
+

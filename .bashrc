@@ -152,6 +152,12 @@ fi
 # --------------------------------------------------------------------------------
 # BASH-SPECIFIC FUNCTION DEFINITIONS
 # --------------------------------------------------------------------------------
+if [ -f "$HOME/.config/bash/bash_aliases" ]; then
+  source "$HOME/.config/bash/bash_aliases"
+else 
+  echo "Could not find $HOME/.config/bash/bash_aliases"
+fi
+
 if [ -f "$HOME/.config/bash/bash_functions" ]; then
   source "$HOME/.config/bash/bash_functions"
 else 

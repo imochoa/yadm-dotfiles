@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# ~/.config/bash/bash_aliases
+
+# Make aliases work with "sudo": https://askubuntu.com/questions/22037/aliases-not-available-when-using-sudo
+# We can tell bash to check the next word after the alias (i.e sudo) by adding a space to the end of the alias value.
+alias sudo='sudo '
+
