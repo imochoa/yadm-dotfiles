@@ -71,8 +71,9 @@ call minpac#add('honza/vim-snippets')
 call minpac#add('sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' })
 call minpac#add('puremourning/vimspector')
 
-" Adds the 'line' text object 'l' (like 'w')
+" Create your own text objects
 call minpac#add('kana/vim-textobj-user')
+" Adds the 'line' text object 'l' (like 'w')
 call minpac#add('kana/vim-textobj-line')
 
 " easier aligning 

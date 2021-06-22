@@ -136,10 +136,12 @@ zinit light-mode for \
 # zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 # Basic auto/tab complete:
-autoload -U compinit
+# autoload -U compinit
+autoload -Uz compinit
 zstyle ':completion:*' menu select
 zmodload zsh/complist
-compinit
+# compinit
+compinit -i
 _comp_options+=(globdots)		# Include hidden files.
 
 
@@ -160,6 +162,17 @@ if [ -f "$HOME/.config/shell/functions" ]; then
   source "$HOME/.config/shell/functions"
 else 
   echo "Could not find $HOME/.config/shell/functions"
+fi
+
+
+if [ -d "$HOME/.config/shell/scripts" ]; then
+  for bcfile in $(find "$HOME/.config/shell/scripts" -iname '*.sh' -o -iname '*.zsh') ; do
+    # echo $bcfile
+    source "$bcfile"
+    # [ -r "$bcfile" ] && source "$bcfile"
+  done
+else 
+  echo "Could not find $HOME/.config/shell/scripts"
 fi
 
 # --------------------------------------------------------------------------------

@@ -1,15 +1,18 @@
 #!/usr/bin/env bash
 # ~/.config/shell/aliases
 
+alias antivirus-full-scan='clamscan -r --bell -i /'
+
+# ---------------------------------------------------------------------- 
+# COMPRESSION & ENCRYPTION
+# ---------------------------------------------------------------------- 
+
 alias tar-dir='tar         \
   -zcvf                    \
   compressed-`date`.tar.gz \
 '
 # /path/to/dir/
 
-# ---------------------------------------------------------------------- 
-# ENCRYPTION
-# ---------------------------------------------------------------------- 
 # GPG Encryption
 # Simple symmetric encryption
 # alias gpg-encrypt='gpg --symmetric'
@@ -42,23 +45,29 @@ alias gpg-decrypt='gpg       \
 # DISPLAY
 # ---------------------------------------------------------------------- 
 
-alias choose-primary-monitor='xrandr --listactivemonitors \
-  | tail -n +2                                            \
-  | cut -d " " -f6                                        \
-  | rofi -dmenu                                           \
-  | xargs -I% xrandr --output % --primary                 \
-'
-# xrandr -q | grep ' connected' | cut -f1 -d' '
+# TODO These are probably better as scripts or functions than aliases...
 
-# xrandr \
-#   --output DP-1.2 --mode 2560x1440 --rate 58.0 --primary \
-#   --output eDP-1-1 --mode 2560x1440 --rate 58.0 \
-#   --same-as DP-1.2
-# --left-of DP other
-alias lang='echo -e "us \nes" \
-  | rofi -dmenu               \
-  | xargs -I% setxkbmap %     \
-'
+# alias choose-primary-monitor='xrandr --listactivemonitors \
+#   | tail -n +2                                            \
+#   | cut -d " " -f6                                        \
+#   | rofi -dmenu                                           \
+#     -window-title "Primary Monitor"                       \
+#     -mesg "xrandr --listactivemonitors"                   \
+#   | xargs -I% xrandr --output % --primary                 \
+# '
+
+# # Works!
+# # RESOLUTION=2560x1440; xrandr --listmonitors   | tail -n+2 | cut -d " " -f6 | xargs -n1  -I{} -- bash -xc "xrandr --output {} --mode $RESOLUTION --pos 0x0 --rotate normal"
+# # RESOLUTION=$(echo -e '2560x1440\n2560x1440' |  rofi -dmenu -window-title "Choose Mirror Resolution")
+# alias mirror-all-monitors='RESOLUTION=2560x1440;                   \
+#   xrandr --listmonitors                                            \
+#   | tail -n+2                                                      \
+#   | cut -d " " -f6                                                 \
+#   | xargs -n1 -I% -- bash -xc                                      \
+#   "xrandr --output % --mode $RESOLUTION --pos 0x0 --rotate normal" \
+#   && choose-primary-monitor                                        \
+# '
+
 
 # ---------------------------------------------------------------------- 
 # PYTHON
@@ -78,8 +87,8 @@ alias pip-upgrade='pip list --outdated --format=freeze | grep -v '^\-e' | cut -d
 # Shell helpers
 # update & upgrade & autoremove
 alias uua='sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get autoremove -y'
-alias uvim='neovim +PackUpdate +qall ; neovim +CocInstall +qall';
-
+# alias uvim='neovim +PackUpdate +qall ; neovim +CocInstall +qall';
+alias update-nvim='nvim -c "call minpac#update() | call minpac#clean() | CocUpdate" +qall';
 
 # rerun last command as root
 alias please='sudo !!'
@@ -306,4 +315,17 @@ alias sort-json-files='fdfind                           \
   -x /bin/bash -c                                       \
   " echo \"{}\" && python -m json.tool {} | sponge {} " \
 '
+# ---------------------------------------------------------------------- 
+# Moved to functions...
+# ---------------------------------------------------------------------- 
+
+# gsettings get org.gnome.desktop.input-sources sources | tr "()'" '[]"' | jq '.[][1]' |  
+# alias auto-lang='gsettings get org.gnome.desktop.input-sources sources | tr "()\'" \'[]"\' | jq ".[][1]" '
+
+# alias lang='echo -e "us \nes" \
+#   | rofi -dmenu               \
+#     -window-title "Choose"    \
+#     -mesg "Keyboard layouts"  \
+#   | xargs -I% setxkbmap %     \
+# '
 

@@ -1,0 +1,219 @@
+#!/usr/bin/env python
+import os
+import glob
+import sys
+import codecs
+import argparse
+import pathlib
+import json
+from json import JSONDecodeError
+import itertools
+import typing as T
+from multiprocessing import Pool
+from functools import partial
+# TODO Empty files? 
+# TODO Log errors at the end?
+
+
+
+red_termcolor = "\033[01;31m"
+green_termcolor = "\033[01;32m"
+nocolor_termcolor = "\033[0m"
+
+encoding = sys.stdout.encoding or "utf-8"
+
+
+def peek(iterable:T.Iterable)->T.Tuple[object,T.Iterable]:
+    """
+    Look at the first element in the iterable, returning it as well as a new unmodified iterable
+    """
+    try:
+        first = next(iterable)
+    except StopIteration:
+        return None, iterable
+    return first, itertools.chain([first], iterable)
+
+
+def print_err(s:str)->None:
+    sys.stderr.write(f"{red_termcolor}{s}{nocolor_termcolor}\n")
+
+
+def print_out(s:str)->None:
+    sys.stdout.write(f"{green_termcolor}{s}{nocolor_termcolor}\n")
+
+# def build_gformatter(i:int)->T.Callable:
+#     return  lambda s: float(format(float(s), f".{i}g"))
+
+
+def star_standardize_json(tup, **kwargs):
+    return standardize_json(*tup,**kwargs)
+
+def standardize_json(
+    input_file: T.Union[pathlib.Path,str],
+    output_file=T.Union[None,pathlib.Path,str],
+    precision=None,
+    dry_run=False,
+    encoding=encoding,
+)->None:
+
+    input_file = pathlib.Path(input_file)
+    output_file = pathlib.Path(output_file) if output_file else output_file
+
+    # ------------------------------------------------------------ #
+    # READING
+    # ------------------------------------------------------------ #
+    if input_file.suffix.lower() != ".json":
+        print_err(f"Not a JSON file! {input_file}! But trying anyway...\n")
+        # sys.stderr.write(f"Not a JSON file! {args.input}! But trying anyway...\n")
+
+    # Default parsers
+    parse_int = None
+    parse_float = None
+
+    if precision is not None:
+        parse_float = lambda s: float(format(float(s), f".{precision}g"))
+        # parse_float=float # Default -> float(num_str)
+        # parse_float=decimal.Decimal
+
+    with codecs.open(str(input_file), "r", encoding=encoding, errors="ignore") as fp:
+
+        content = fp.read().strip()
+        if not content:
+            print_err(f"{input_file} was empty!")
+            return None
+        try:
+            obj = json.loads(
+                s=content,
+                parse_float=parse_float,
+                parse_int=parse_int,
+            )
+        except JSONDecodeError as e:
+            print_err(f"INVALID JSON {input_file}!\n\n{e}")
+            return None
+
+    # ------------------------------------------------------------ #
+    # WRITING
+    # ------------------------------------------------------------ #
+    dump_kwargs = dict(
+        sort_keys=True,
+        indent=2,
+    )
+
+    if not output_file:
+        sys.stdout.write(json.dumps(obj, **dump_kwargs))
+    elif dry_run:
+        print_out(f"Would have written {output_file}")
+    else:
+        with open(output_file, "w") as fp:
+            json.dump(obj=obj, fp=fp, **dump_kwargs)
+
+        sys.stdout.write(
+            f"Wrote {output_file} ({output_file.stat().st_size/1e3:.3g}[Kb])\n"
+        )
+
+    # To see within subprocesses
+    # sys.stdout.flush()
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Load a JSON file and apply standard formatting: encoding, styling, sorting, precision"
+    )
+    parser.add_argument("input", type=pathlib.Path, help="Input JSON file")
+    parser.add_argument(
+        "--output",
+        "-o",
+        type=pathlib.Path,
+        help="Where to save the output (by default, print to STDOUT)",
+    )
+    parser.add_argument(
+        "--recursive",
+        "-r",
+        action="store_true",
+        help="Recursively overwrite the JSON files in the input DIRECTORY",
+    )
+    parser.add_argument(
+        "--dry-run",
+        "-d",
+        action="store_true",
+        help="Show what would happen if the script were to run",
+    )
+    parser.add_argument(
+        "--precision",
+        "-p",
+        type=int,
+        default=None,
+        help="[Optional] How many decimal places to use for floats (%g) (default: No formatting applied)",
+    )
+    parser.add_argument(
+        "--num-cores",
+        "-n",
+        type=int,
+        default=1,
+        help="[Optional] How many workers to use (default: 1)",
+    )
+
+    args = parser.parse_args()
+
+    assert args.input.exists(), f"Could not find {args.input}!"
+
+    args.input = args.input.resolve()
+
+    if args.precision is not None:
+        assert isinstance(args.precision,int), f"The precision should be an integer: {args.precision}"
+        assert args.precision>=0, f"The precision should be >=0: {args.precision}"
+        print_out(f"Using a precision of {args.precision}")
+
+
+    if args.input.is_file():
+        standardize_json(
+            input_file=args.input, output_file=args.output,precision=args.precision,
+        )
+    elif args.input.is_dir():
+
+        if not args.recursive:
+            print_err(
+                f"input was a directory: {args.input}\n\tUse '-r' if you want to recursively replace the child files"
+            )
+            sys.exit(1)
+        infiles = args.input.rglob("**/*.json")
+        res, infiles = peek(infiles)
+        if res is None:
+            print_err(f"No files found in {args.input}!")
+            sys.exit(1)
+
+        # Running in series
+        errors= []
+        if not args.num_cores or args.num_cores<=1:
+
+            errors = [
+                standardize_json(
+                    input_file=f,
+                    output_file=f,
+                    precision=args.precision,
+                    dry_run=args.dry_run,
+                ) for f in infiles]
+        else:
+            # Running in parallel!
+            print_out(f"Running in parallel with {args.num_cores} cores")
+            with Pool(args.num_cores,) as pool:
+
+                errors=list(
+                        pool.imap(
+                    partial(star_standardize_json, 
+                                        precision=args.precision,
+                                        dry_run=args.dry_run,
+                            ),
+                  ((f, f,) for f in infiles),
+                  )
+                  )
+
+                # pool.starmap(standardize_json,
+                #         ((f, f, args.precision, args.dry_run,) for f in infiles),
+                #         chunksize=25,
+                #         )
+
+
+        # LOGGING
+        if errors:
+            print(errors)
