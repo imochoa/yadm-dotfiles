@@ -56,3 +56,21 @@ ranger() {
         exit
     fi
 }
+
+# Open the file explorer (like the mac "open" command)
+open() {
+
+
+# Help 
+if [ "$1" = "-h"  -o "$1" = "--help" ] ;
+  then
+    echo "Opens the file explorer at the given path or CWD by default";
+    echo "(Currently, CWD=`pwd`)";
+    return 0;
+fi
+
+# Command
+nohup nautilus -w "${1:=$(pwd)}" > /dev/null 2>&1 &
+
+}
+

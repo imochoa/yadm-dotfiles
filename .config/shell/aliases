@@ -9,7 +9,7 @@ alias antivirus-full-scan='clamscan -r --bell -i /'
 
 alias tar-dir='tar         \
   -zcvf                    \
-  compressed-`date`.tar.gz \
+  compressed-`date "+%Y.%m.%d_%H.%M.%S"`.tar.gz \
 '
 # /path/to/dir/
 
@@ -39,6 +39,7 @@ alias gpg-decrypt='gpg       \
     --pinentry-mode loopback \
     --armor                  \
 '
+# HAS TO BE BEFORE!
 # --output somefile.gpg \
 
 # ---------------------------------------------------------------------- 
@@ -157,10 +158,11 @@ then
   alias tree='tree -C'
   alias trls='tree -C | less -R'	# -C outputs colour, -R makes less understand color
 else
-  alias l='exa'
-  alias la='exa -a'
-  alias ll='exa -lah'
-  alias ls='exa --color=auto'
+  # requires nerdfonts: --icons
+  alias l='exa --icons'
+  alias la='exa -a --icons'
+  alias ll='exa -lah --icons'
+  alias ls='exa --color=auto --icons'
   alias tree='exa --tree'
 fi
 
@@ -237,6 +239,7 @@ alias r='lf'
 alias untrack='git update-index --assume-unchanged'
 alias retrack='git update-index --no-assume-unchanged'
 alias backup-untracked='git ls-files --others --exclude-standard -z | xargs -0 tar rvf ~/backup-untracked.zip'
+alias list-untracked='git ls-files --others --exclude-standard'
 alias git-interactive='git add --interactive'
 alias yadm-interactive='yadm add --interactive'
 
@@ -310,11 +313,12 @@ alias dunst-reload='killall dunst               \
 # UTILS
 # ---------------------------------------------------------------------- 
 
-alias sort-json-files='fdfind                           \
-  -ejson -p . .                                         \
-  -x /bin/bash -c                                       \
-  " echo \"{}\" && python -m json.tool {} | sponge {} " \
-'
+# alias sort-json-files='fdfind                           \
+#   -ejson -p . .                                         \
+#   -x /bin/bash -c                                       \
+#   " echo \"{}\" && python -m json.tool {} | sponge {} " \
+# '
+
 # ---------------------------------------------------------------------- 
 # Moved to functions...
 # ---------------------------------------------------------------------- 
