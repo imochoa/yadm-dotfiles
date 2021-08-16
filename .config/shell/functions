@@ -1,5 +1,8 @@
 #!/usr/bin/env sh
 
+# -------------------------------------------------------------------------------- #
+# cb (a nicer cp)
+# -------------------------------------------------------------------------------- #
 # A shortcut function that simplifies usage of xclip.
 # - Accepts input from either stdin (pipe), or params.
 # e.g. pipe:   tail -n 100 /var/log/apache2/error.log | cb
@@ -47,6 +50,9 @@ alias cbwd="pwd | cb"
 # Copy most recent command in bash history
 alias cbhs="cat $HISTFILE | tail -n 1 | cb"
 
+# -------------------------------------------------------------------------------- #
+# Ranger wrapper
+# -------------------------------------------------------------------------------- #
 
 # Prevent nested ranger instances
 ranger() {
@@ -57,20 +63,137 @@ ranger() {
     fi
 }
 
-# Open the file explorer (like the mac "open" command)
+# -------------------------------------------------------------------------------- #
+# Open
+# -------------------------------------------------------------------------------- #
+
 open() {
 
 
 # Help 
 if [ "$1" = "-h"  -o "$1" = "--help" ] ;
   then
-    echo "Opens the file explorer at the given path or CWD by default";
-    echo "(Currently, CWD=`pwd`)";
+    echo "Opens the given path or CWD by default (CWD=`pwd`)";
     return 0;
 fi
 
-# Command
-nohup nautilus -w "${1:=$(pwd)}" > /dev/null 2>&1 &
+
+# Not a file? -> Try as a directory!
+# nohup nautilus -w "${1:=$(pwd)}" > /dev/null 2>&1 &
+# nohup xdg-open "${1:=$(pwd)}" > /dev/null 2>&1 &
+nohup xdg-open "${1:-$(pwd)}" > /dev/null 2>&1 &
+
+
+# # Was it a file?
+# if [ -f "$1" ]; then
+
+#     # to lowercase for the matching!
+#     ll=$(echo "$1" | tr '[:upper:]' '[:lower:]')
+
+#     case "${ll}" in
+
+#       # TEXT
+#       *.txt | *.py | *.log | *.csv )
+#         $EDITOR "$1";
+#         ;;
+
+#       # IMAGE
+#       *.jpg | *.jpeg | *.png )
+#         eog $1;
+#         ;;
+
+#       *)
+#         echo "Unknown file type for $1"
+#         ;;
+#     esac
+
+#     return 0;
+# fi
+
+# # Not a file? -> Try as a directory!
+# nohup nautilus -w "${1:=$(pwd)}" > /dev/null 2>&1 &
+
+}
+
+# -------------------------------------------------------------------------------- #
+# JSON key!
+# -------------------------------------------------------------------------------- #
+
+json-rsearch() {
+
+  # Help 
+  if [ "$1" = "-h"  -o "$1" = "--help" -o -z "$1" ] ;
+    then
+      echo "Recursively search #1 for keys with the name in #2";
+      return 0;
+  fi
+
+  # cat "$1" | jq "..|.${2}?" | grep -v 'null'
+  jq "..|.${2}?" -C ${1} | grep -v 'null'
+
+}
+
+
+# TODO
+# -------------------------------------------------------------------------------- #
+# GPG Encryption
+# -------------------------------------------------------------------------------- #
+
+gpg_encrypt() {
+
+  # Help 
+  if [ "$1" = "-h"  -o "$1" = "--help" -o -z "$1" ] ;
+    then
+      echo "encrypt file #1 as #2 (by default #1.asc)";
+      return 0;
+  fi
+
+    # --output "${2:=${1}.asc}"   \
+  # let outname=${2:-"${1}.asc"}
+  # POOP=${2:="hoho"}
+
+  OUTFILE=${2:-"${1}.asc"}
+
+  gpg                           \
+    --symmetric                 \
+    --cipher-algo aes256        \
+    --digest-algo sha512        \
+    --cert-digest-algo sha512   \
+    --compress-algo none -z 0   \
+    --s2k-mode 3                \
+    --s2k-digest-algo sha512    \
+    --s2k-count 65011712        \
+    --force-mdc                 \
+    --pinentry-mode loopback    \
+    --armor                     \
+    --no-symkey-cache           \
+    --output "${OUTFILE}"       \
+    "$1" \
+  && echo "Wrote ${OUTFILE}"
+
+}
+
+
+gpg_decrypt() {
+
+  # Help 
+  if [ "$1" = "-h"  -o "$1" = "--help" -o -z "$1" ] ;
+    then
+      echo "decrypt file #1 as #2 (by default #1 minus .asc/.gpg)";
+      return 0;
+  fi
+
+  # remove asc??
+  # OUTFILE=${2:-"${1}.asc"}
+  OUTFILE='out'
+
+  gpg                        \
+    --decrypt                \
+    --pinentry-mode loopback \
+    --armor                  \
+    --output "${OUTFILE}"    \
+    "$1" \
+  && echo "Wrote ${OUTFILE}"
 
 }
 
